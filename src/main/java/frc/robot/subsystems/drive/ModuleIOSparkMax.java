@@ -71,7 +71,7 @@ public class ModuleIOSparkMax implements ModuleIO {
         turnSparkMax = new CANSparkMax(8, MotorType.kBrushless);
         turnAbsoluteEncoder = new CANcoder(9);
         absoluteEncoderOffset =
-            new Rotation2d(Units.rotationsToRadians(-0.289795)); // MUST BE CALIBRATED
+            new Rotation2d(Units.rotationsToRadians(-0.188721)); // MUST BE CALIBRATED
         break;
       default:
         throw new RuntimeException("Invalid module index");
