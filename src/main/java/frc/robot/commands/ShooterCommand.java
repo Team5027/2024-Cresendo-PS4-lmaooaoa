@@ -1,42 +1,46 @@
 package frc.robot.commands;
+
+import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterCommand extends Command {
-/*   private final Shooter shooterSubsystem;
-    private double speed;
 
+  private final Encoder e;
+  private final CANSparkMax m;
+  private final Double targetAngle = 120.0;
 
-     public ShooterCommand(Shooter shooterSubsystem, double speed) {
-    this.shooterSubsystem = shooterSubsystem;
-    this.speed = speed;
-    addRequirements(shooterSubsystem);
+  public ShooterCommand(Shooter s, Encoder e, CANSparkMax m) {
+    this.e = e;
+    this.m = m;
+    m.getEncoder().setPositionConversionFactor(360.0);
+    addRequirements(s);
   }
 
-  private void addRequirements(Shooter shooterSubsystem2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addRequirements'");
-    }
 
-@Override
+  @Override
   public void initialize() {
-    System.out.println("shootCommand started!");
+    System.out.println("starting angle: " + m.getEncoder().getPositionConversionFactor());
   }
 
   @Override
   public void execute() {
-    shooterSubsystem.setMotor(0.2);
+    System.out.println("current angle: " + m.getEncoder().getPositionConversionFactor());
+
+    if (m.getEncoder().getPosition() <= targetAngle) {
+      System.out.println("go up");
+    } else {
+      System.out.println("go down");
+    }
   }
 
   @Override
-  public void end(boolean interrupted) {
-    shooterSubsystem.setMotor(0);
-    System.out.println("ended!");
-  }
+  public void end(boolean interrupted) {}
 
+  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
-  }*/
+  }
 }

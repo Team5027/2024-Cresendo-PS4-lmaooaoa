@@ -33,7 +33,7 @@ public class RobotContainer {
   private final Climber climberSubsystem = new Climber();
   private final Indexer indexerSubsystem = new Indexer();
   private final Intake intakeSubsystem = new Intake();
-  private final Shooter shooterSubsystem = new Shooter();
+  private final Shooter shooterSubsystem;
 
   // Controller
   private final CommandPS4Controller controller = new CommandPS4Controller(0);
@@ -53,6 +53,8 @@ public class RobotContainer {
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
+        shooterSubsystem = new Shooter();
+        shooterSubsystem.initDefaultCommand();
         // flywheel = new Flywheel(new FlywheelIOSparkMax());
         // drive = new Drive(
         // new GyroIOPigeon2(true),
@@ -72,6 +74,9 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim());
+        shooterSubsystem = new Shooter();
+        shooterSubsystem.initDefaultCommand();
+
         // flywheel = new Flywheel(new FlywheelIOSim());
         break;
 
@@ -84,6 +89,9 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
+        shooterSubsystem = new Shooter();
+        shooterSubsystem.initDefaultCommand();
+
         // flywheel = new Flywheel(new FlywheelIO() {});
         break;
     }
