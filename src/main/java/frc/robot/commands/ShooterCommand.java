@@ -1,38 +1,38 @@
 package frc.robot.commands;
 
 import com.revrobotics.CANSparkMax;
-import edu.wpi.first.wpilibj.Encoder;
+import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterCommand extends Command {
 
-  private final Encoder e;
+  private final RelativeEncoder e;
   private final CANSparkMax m;
   private final Double targetAngle = 120.0;
 
-  public ShooterCommand(Shooter s, Encoder e, CANSparkMax m) {
-    this.e = e;
+  public ShooterCommand(Shooter s, CANSparkMax m) {
+    this.e = m.getEncoder();
     this.m = m;
-    m.getEncoder().setPositionConversionFactor(360.0);
+    e.setPositionConversionFactor(360.0);
     addRequirements(s);
   }
 
-
   @Override
   public void initialize() {
-    System.out.println("starting angle: " + m.getEncoder().getPositionConversionFactor());
+    // System.out.println("starting angle: " + m.getEncoder().getPositionConversionFactor());
   }
 
   @Override
   public void execute() {
-    System.out.println("current angle: " + m.getEncoder().getPositionConversionFactor());
+    SmartDashboard.putNumber("Encoder Position ", e.getPositionConversionFactor());
 
-    if (m.getEncoder().getPosition() <= targetAngle) {
-      System.out.println("go up");
-    } else {
-      System.out.println("go down");
-    }
+    // if (m.getEncoder().getPosition() <= targetAngle) {
+    //   System.out.println("go up");
+    // } else {
+    //   System.out.println("go down");
+    // }
   }
 
   @Override

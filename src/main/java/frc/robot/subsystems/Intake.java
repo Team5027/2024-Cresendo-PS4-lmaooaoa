@@ -2,20 +2,24 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakePivot;
 
 public class Intake extends SubsystemBase {
   private final CANSparkMax intakeMotor;
-  private final CANSparkMax intakePivot;
+  private final CANSparkMax intakePivotMotor;
+  private final RelativeEncoder intakePivotEncoder;
 
   public Intake() {
-    intakeMotor = new CANSparkMax(14, MotorType.kBrushless);
-    intakePivot = new CANSparkMax(15, MotorType.kBrushless);
+    intakeMotor = new CANSparkMax(15, MotorType.kBrushless);
+    intakePivotMotor = new CANSparkMax(14, MotorType.kBrushless);
+    intakePivotEncoder = intakePivotMotor.getEncoder();
   }
 
   public void initDefaultCommand() {
-     setDefaultCommand(new IntakeCommand(this, intakeMotor, intakePivot));
+    // setDefaultCommand(new IntakeCommand(this, intakeMotor));
+    setDefaultCommand(new IntakePivot(this, intakePivotMotor));
   }
 
   public void intakeIn() {
@@ -44,4 +48,9 @@ public class Intake extends SubsystemBase {
     IntakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus7, 500);
     ;
   }*/
+
+  public CANSparkMax getintakeMotor() {
+
+    return this.intakeMotor;
+  }
 }

@@ -10,17 +10,26 @@ import frc.robot.subsystems.Shooter;
 
 public class StorageShoot extends Command {
 
-  private final CANSparkMax i;
+  private final CANSparkMax l;
+  private final CANSparkMax r;
+  private final CANSparkMax b;
+  private final double defaultSpeed = 0.5;
   /** Creates a new StorageShoot. */
-  public StorageShoot(Shooter s, CANSparkMax i) {
-    this.i = i;
+  public StorageShoot(Shooter s, CANSparkMax l, CANSparkMax r, CANSparkMax b) {
+    this.l = l;
+    this.r = r;
+    this.b = b;
     addRequirements(s);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    l.set(defaultSpeed);
+    r.set(-defaultSpeed);
+    b.set(defaultSpeed);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

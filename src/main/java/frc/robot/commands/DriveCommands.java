@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -15,6 +16,10 @@ import java.util.function.Supplier;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
+  // controllers for slew rate
+  static final SlewRateLimiter xLim = new SlewRateLimiter(0.7, -0.7, 0);
+  static final SlewRateLimiter yLim = new SlewRateLimiter(0.7, -0.7, 0);
+  static final SlewRateLimiter rotLim = new SlewRateLimiter(1, -1, 0);
 
   private DriveCommands() {}
 
@@ -51,9 +56,9 @@ public class DriveCommands {
 
           drive.runVelocity(
               ChassisSpeeds.fromFieldRelativeSpeeds(
-                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                  angle * drive.getMaxAngularSpeedRadPerSec(),
+                  xLim.calculate(linearVelocity.getX()) * drive.getMaxLinearSpeedMetersPerSec(),
+                  yLim.calculate(linearVelocity.getY()) * drive.getMaxLinearSpeedMetersPerSec(),
+                  rotLim.calculate(angle) * drive.getMaxAngularSpeedRadPerSec(),
                   isFlipped
                       ? drive.getRotation().plus(new Rotation2d(Math.PI))
                       : drive.getRotation()));

@@ -6,31 +6,29 @@ package frc.robot.commands;
 
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
-public class IntakeCommand extends Command {
-  private final CANSparkMax in;
+public class StopStorageShoot extends Command {
 
-  private final double defaultSpeed = 1.0;
-
-  /**
-   * Creates a new IntakeCommand.
-   *
-   * @param intakePivot
-   * @param intakeMotor
-   * @param intake
-   */
-  public IntakeCommand(Intake intake) {
-    this.in = intake.getintakeMotor();
-    addRequirements(intake);
+  private final CANSparkMax l;
+  private final CANSparkMax r;
+  private final CANSparkMax b;
+  private final double defaultSpeed = 0.5;
+  /** Creates a new StorageShoot. */
+  public StopStorageShoot(Shooter s, CANSparkMax l, CANSparkMax r, CANSparkMax b) {
+    this.l = l;
+    this.r = r;
+    this.b = b;
+    addRequirements(s);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
-
   @Override
   public void initialize() {
-    in.set(defaultSpeed);
+    l.set(0.0);
+    r.set(0.0);
+    b.set(0.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

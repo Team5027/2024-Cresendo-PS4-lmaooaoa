@@ -5,43 +5,42 @@
 package frc.robot.commands;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
-public class IntakeCommand extends Command {
-  private final CANSparkMax in;
+public class IntakePivot extends Command {
+  private final CANSparkMax p;
+  private final RelativeEncoder intakeP;
 
-  private final double defaultSpeed = 1.0;
+  /** Creates a new IntakePivot. */
+  public IntakePivot(Intake intake, CANSparkMax p) {
+    this.p = p;
+    this.intakeP = p.getEncoder();
 
-  /**
-   * Creates a new IntakeCommand.
-   *
-   * @param intakePivot
-   * @param intakeMotor
-   * @param intake
-   */
-  public IntakeCommand(Intake intake) {
-    this.in = intake.getintakeMotor();
+    // this.intakeP.reset();
     addRequirements(intake);
+    this.intakeP.setPositionConversionFactor(360.0);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
-
   @Override
-  public void initialize() {
-    in.set(defaultSpeed);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    SmartDashboard.putNumber(
+        "Intake Pivot Encoder Position", intakeP.getPositionConversionFactor());
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
+  // Returns true when the command should end.//
   @Override
   public boolean isFinished() {
     return false;

@@ -1,14 +1,15 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.StopStorage;
+import frc.robot.commands.Storage;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -32,11 +33,13 @@ public class RobotContainer {
   private final Drive drive;
   private final Climber climberSubsystem = new Climber();
   private final Indexer indexerSubsystem = new Indexer();
-  private final Intake intakeSubsystem = new Intake();
+  private final Intake intakeSubsystem;
   private final Shooter shooterSubsystem;
 
   // Controller
-  private final CommandPS4Controller controller = new CommandPS4Controller(0);
+  private final Joystick controller = new Joystick(0);
+  private JoystickButton a;
+  private final XboxController xboxController = new XboxController(0);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -55,6 +58,9 @@ public class RobotContainer {
                 new ModuleIOSparkMax(3));
         shooterSubsystem = new Shooter();
         shooterSubsystem.initDefaultCommand();
+        intakeSubsystem = new Intake();
+        intakeSubsystem.initDefaultCommand();
+
         // flywheel = new Flywheel(new FlywheelIOSparkMax());
         // drive = new Drive(
         // new GyroIOPigeon2(true),
@@ -76,6 +82,8 @@ public class RobotContainer {
                 new ModuleIOSim());
         shooterSubsystem = new Shooter();
         shooterSubsystem.initDefaultCommand();
+        intakeSubsystem = new Intake();
+        intakeSubsystem.initDefaultCommand();
 
         // flywheel = new Flywheel(new FlywheelIOSim());
         break;
@@ -91,6 +99,8 @@ public class RobotContainer {
                 new ModuleIO() {});
         shooterSubsystem = new Shooter();
         shooterSubsystem.initDefaultCommand();
+        intakeSubsystem = new Intake();
+        intakeSubsystem.initDefaultCommand();
 
         // flywheel = new Flywheel(new FlywheelIO() {});
         break;
@@ -153,19 +163,25 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
-    controller.square().onTrue(Commands.runOnce(drive::stopWithSquare, drive));
-    controller // uhhhhh
-        .circle()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-                    drive)
-                .ignoringDisable(true)); // uhhhhh
+            () -> -controller.getRawAxis(0),
+            () -> -controller.getRawAxis(1),
+            () -> -controller.getRawAxis(4)));
+    // controller.square().onTrue(Commands.runOnce(drive::stopWithsquare, drive));
+    // controller // uhhhhh
+    //     .getRawButtonPressed(3)
+    //     .onTrue(
+    //         Commands.runOnce(
+    //                 () ->
+    //                     drive.setPose(
+    //                         new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+    //                 drive)
+    //             .ignoringDisable(true)); // uhhhhh
+
+    a = new JoystickButton(controller, 1);
+    a.onTrue(new Storage(intakeSubsystem, shooterSubsystem));
+    a.onFalse(new StopStorage(intakeSubsystem, shooterSubsystem));
+
+    // a.onTrue(new ChangeIntake(controllerSubsystem));
   }
 
   /**
