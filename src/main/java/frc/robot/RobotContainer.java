@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.MoveIntake;
 import frc.robot.commands.StopStorage;
 import frc.robot.commands.Storage;
 import frc.robot.subsystems.Climber;
@@ -38,6 +39,7 @@ public class RobotContainer {
 
   // Controller
   private final Joystick controller = new Joystick(0);
+  private JoystickButton x;
   private JoystickButton a;
   private final XboxController xboxController = new XboxController(0);
 
@@ -180,6 +182,9 @@ public class RobotContainer {
     a = new JoystickButton(controller, 1);
     a.onTrue(new Storage(intakeSubsystem, shooterSubsystem));
     a.onFalse(new StopStorage(intakeSubsystem, shooterSubsystem));
+
+    x = new JoystickButton(controller, 2);
+    x.onTrue(new MoveIntake(intakeSubsystem));
 
     // a.onTrue(new ChangeIntake(controllerSubsystem));
   }
