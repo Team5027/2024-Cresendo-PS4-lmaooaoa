@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.ShooterCommand;
 
@@ -12,15 +14,17 @@ public class Shooter extends SubsystemBase {
   private final CANSparkMax bottomShooterMotor;
   private final CANSparkMax shooterPivot;
   private final RelativeEncoder pivotEncoder;
+  private final Joystick controller;
   double motorPosition = 180; // integer between 0-360
   double rate;
   // pivotEncoder.reset();
 
-  public Shooter() {
+  public Shooter(Joystick j) {
     leftShooterMotor = new CANSparkMax(17, MotorType.kBrushless);
     rightShooterMotor = new CANSparkMax(16, MotorType.kBrushless);
     bottomShooterMotor = new CANSparkMax(19, MotorType.kBrushless);
     shooterPivot = new CANSparkMax(18, MotorType.kBrushless);
+    controller = j;
     pivotEncoder = shooterPivot.getEncoder();
     // rate = pivotEncoder.getRate();
 
@@ -32,26 +36,6 @@ public class Shooter extends SubsystemBase {
     // setDefaultCommand(new ShooterCommand(this, leftShooterMotor));
   }
 
-  public void storage() {
-    // leftShooterMotor.set(-0.2);
-  }
-
-  public void goUp() {
-    // shooterPivot.set(-0.3);
-  }
-
-  public void shoot() {
-    // leftShooterMotor.set(0.3);
-  }
-
-  public void setPoint() {
-    /*pivotEncoder.reset();
-    if(rate==motorPosition){
-      shooterPivot.set(0);
-    }else{
-      shooterPivot.set(-0.3);
-    }*/
-  }
 
   @Override
   public void periodic() {}
@@ -88,5 +72,13 @@ public class Shooter extends SubsystemBase {
 
   public CANSparkMax getbottomShooterMotor() {
     return this.bottomShooterMotor;
+  }
+
+  public CANSparkMax getshooterPivot() {
+    return this.shooterPivot;
+  }
+
+  public Joystick getcontroller(){
+    return this.controller;
   }
 }

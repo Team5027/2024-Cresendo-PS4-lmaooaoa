@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.IntakePivot;
 
@@ -13,15 +14,19 @@ public class Intake extends SubsystemBase {
   private final RelativeEncoder intakePivotEncoder;
   private final DigitalInput frontLimit;
   private final DigitalInput backLimit;
+  private final Joystick controller;
+  // private final JoystickButton x;
   private boolean isForward;
   private double speed;
 
-  public Intake() {
+  public Intake(Joystick j) {
     intakeMotor = new CANSparkMax(15, MotorType.kBrushless);
     intakePivotMotor = new CANSparkMax(14, MotorType.kBrushless);
     intakePivotEncoder = intakePivotMotor.getEncoder();
     frontLimit = new DigitalInput(0);
     backLimit = new DigitalInput(1);
+    controller = j;
+    //  x = new JoystickButton(controller, 2);
     isForward = true;
     speed = 0.0;
   }
@@ -31,18 +36,7 @@ public class Intake extends SubsystemBase {
     setDefaultCommand(new IntakePivot(this, intakePivotMotor));
   }
 
-  public void intakeIn() {
-    // intakePivot.set(-0.2);
-  }
-
-  public void intakeOut() {
-    // intakePivot.set(0.3);
-  }
-
-  public void rollIn() {
-    // intakemMotor.set(-0.3);
-  }
-
+  
   @Override
   public void periodic() {}
 
@@ -89,5 +83,9 @@ public class Intake extends SubsystemBase {
 
   public DigitalInput getbackLimit() {
     return this.backLimit;
+  }
+
+  public Joystick getcontroller() {
+    return this.controller;
   }
 }

@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.MoveIntake;
 import frc.robot.commands.StopStorage;
 import frc.robot.commands.Storage;
+import frc.robot.commands.Unfolding;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -40,8 +40,8 @@ public class RobotContainer {
   // Controller
   private final Joystick controller = new Joystick(0);
   private JoystickButton x;
-  private JoystickButton a;
-  private final XboxController xboxController = new XboxController(0);
+  private JoystickButton b;
+  //private final XboxController xboxController = new XboxController(0);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -58,9 +58,9 @@ public class RobotContainer {
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
-        shooterSubsystem = new Shooter();
+        shooterSubsystem = new Shooter(controller);
         shooterSubsystem.initDefaultCommand();
-        intakeSubsystem = new Intake();
+        intakeSubsystem = new Intake(controller);
         intakeSubsystem.initDefaultCommand();
 
         // flywheel = new Flywheel(new FlywheelIOSparkMax());
@@ -82,9 +82,9 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim());
-        shooterSubsystem = new Shooter();
+        shooterSubsystem = new Shooter(controller);
         shooterSubsystem.initDefaultCommand();
-        intakeSubsystem = new Intake();
+        intakeSubsystem = new Intake(controller);
         intakeSubsystem.initDefaultCommand();
 
         // flywheel = new Flywheel(new FlywheelIOSim());
@@ -99,9 +99,9 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
-        shooterSubsystem = new Shooter();
+        shooterSubsystem = new Shooter(controller);
         shooterSubsystem.initDefaultCommand();
-        intakeSubsystem = new Intake();
+        intakeSubsystem = new Intake(controller);
         intakeSubsystem.initDefaultCommand();
 
         // flywheel = new Flywheel(new FlywheelIO() {});
@@ -179,12 +179,16 @@ public class RobotContainer {
     //                 drive)
     //             .ignoringDisable(true)); // uhhhhh
 
-    a = new JoystickButton(controller, 1);
-    a.onTrue(new Storage(intakeSubsystem, shooterSubsystem));
-    a.onFalse(new StopStorage(intakeSubsystem, shooterSubsystem));
+    x = new JoystickButton(controller, 3);
+    x.onTrue(new Storage(intakeSubsystem, shooterSubsystem));
+    x.onFalse(new StopStorage(intakeSubsystem, shooterSubsystem));
 
-    x = new JoystickButton(controller, 2);
-    x.onTrue(new MoveIntake(intakeSubsystem));
+    b = new JoystickButton(controller, 2);
+    b.toggleOnTrue(new Unfolding(intakeSubsystem, shooterSubsystem));
+    
+
+    // x = new JoystickButton(controller, 2);
+    // x.onTrue(new MoveIntake(intakeSubsystem));
 
     // a.onTrue(new ChangeIntake(controllerSubsystem));
   }

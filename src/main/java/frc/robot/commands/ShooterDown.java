@@ -4,17 +4,24 @@
 
 package frc.robot.commands;
 
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Shooter;
 
 public class ShooterDown extends Command {
+  private final CANSparkMax m;
   /** Creates a new ShooterDown. */
-  public ShooterDown() {
+  public ShooterDown(Shooter s, CANSparkMax m) {
+    this.m = m;
+    addRequirements(s);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m.set(0.3);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

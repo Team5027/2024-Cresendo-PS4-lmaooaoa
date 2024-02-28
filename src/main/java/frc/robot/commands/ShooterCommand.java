@@ -7,12 +7,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterCommand extends Command {
-
+  private final Shooter s;
   private final RelativeEncoder e;
   private final CANSparkMax m;
   private final Double targetAngle = 120.0;
+  private final Double marginOfError = 2.0;
 
   public ShooterCommand(Shooter s, CANSparkMax m) {
+    this.s = s;
     this.e = m.getEncoder();
     this.m = m;
     e.setPositionConversionFactor(360.0);
@@ -26,13 +28,18 @@ public class ShooterCommand extends Command {
 
   @Override
   public void execute() {
+
+    SmartDashboard.putNumber("shooter encoder", s.getshooterPivot().getEncoder().getPosition());
+
     SmartDashboard.putNumber("Encoder Position ", e.getPositionConversionFactor());
 
-    // if (m.getEncoder().getPosition() <= targetAngle) {
-    //   System.out.println("go up");
-    // } else {
-    //   System.out.println("go down");
-    // }
+    if (m.getEncoder().getPosition() <= targetAngle - marginOfError) {
+      SmartDashboard.putString("shooter do", "go up");
+    } else if (m.getEncoder().getPosition() >= targetAngle + marginOfError) {
+      SmartDashboard.putString("shooter do", "go down");
+    } else {
+      SmartDashboard.putString("Shooter do", "stay put");
+    }
   }
 
   @Override

@@ -4,23 +4,21 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-//button 3
+//button 2?
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class StopStorage extends ParallelCommandGroup {
-  /** Creates a new StopStorage. */
-  public StopStorage(Intake i, Shooter s) {
+public class Unfolding extends SequentialCommandGroup {
+  /** Creates a new Unfolding. */
+  public Unfolding(Intake i, Shooter s) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-        new StopIntake(i),
-        new StopStorageShoot(
-            s, s.getleftShooterMotor(), s.getrightShooterMotor(), s.getbottomShooterMotor()));
+    addCommands(new ShooterUp(s, s.getshooterPivot()),new MoveIntake(i));
   }
 }
