@@ -6,7 +6,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.IntakePivot;
+import frc.robot.commands.IntakeCommands.IntakePivot;
 
 public class Intake extends SubsystemBase {
   private final CANSparkMax intakeMotor;
@@ -36,7 +36,6 @@ public class Intake extends SubsystemBase {
     setDefaultCommand(new IntakePivot(this, intakePivotMotor));
   }
 
-  
   @Override
   public void periodic() {}
 

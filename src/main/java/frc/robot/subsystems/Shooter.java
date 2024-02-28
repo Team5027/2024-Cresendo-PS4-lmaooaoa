@@ -3,10 +3,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.ShooterCommands.ShooterCommand;
 
 public class Shooter extends SubsystemBase {
   private final CANSparkMax leftShooterMotor;
@@ -35,7 +34,6 @@ public class Shooter extends SubsystemBase {
     setDefaultCommand(new ShooterCommand(this, shooterPivot));
     // setDefaultCommand(new ShooterCommand(this, leftShooterMotor));
   }
-
 
   @Override
   public void periodic() {}
@@ -78,7 +76,7 @@ public class Shooter extends SubsystemBase {
     return this.shooterPivot;
   }
 
-  public Joystick getcontroller(){
+  public Joystick getcontroller() {
     return this.controller;
   }
 }

@@ -3,14 +3,13 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.StopStorage;
-import frc.robot.commands.Storage;
-import frc.robot.commands.Unfolding;
+import frc.robot.commands.GroupedCommands.StopStorage;
+import frc.robot.commands.GroupedCommands.Storage;
+import frc.robot.commands.GroupedCommands.Unfolding;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -41,7 +40,7 @@ public class RobotContainer {
   private final Joystick controller = new Joystick(0);
   private JoystickButton x;
   private JoystickButton b;
-  //private final XboxController xboxController = new XboxController(0);
+  // private final XboxController xboxController = new XboxController(0);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -185,7 +184,6 @@ public class RobotContainer {
 
     b = new JoystickButton(controller, 2);
     b.toggleOnTrue(new Unfolding(intakeSubsystem, shooterSubsystem));
-    
 
     // x = new JoystickButton(controller, 2);
     // x.onTrue(new MoveIntake(intakeSubsystem));

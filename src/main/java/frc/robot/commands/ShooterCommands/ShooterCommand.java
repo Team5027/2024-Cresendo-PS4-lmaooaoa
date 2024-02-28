@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.ShooterCommands;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;

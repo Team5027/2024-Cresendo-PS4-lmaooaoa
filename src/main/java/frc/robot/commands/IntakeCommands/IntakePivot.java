@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.IntakeCommands;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
@@ -25,10 +25,10 @@ public class IntakePivot extends Command {
     this.intakeP = i.getintakePivotMotor().getEncoder();
     this.j = i.getcontroller();
 
-      this.intakeP.setPositionConversionFactor(1.0);
+    this.intakeP.setPositionConversionFactor(1.0);
     // this.intakeP.reset();
     addRequirements(i);
-    //this.intakeP.setPositionConversionFactor(360.0);
+    // this.intakeP.setPositionConversionFactor(360.0);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -41,8 +41,8 @@ public class IntakePivot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   // SmartDashboard.putNumber(
-   //     "Intake Pivot Encoder Position", intakeP.getPositionConversionFactor());
+    // SmartDashboard.putNumber(
+    //     "Intake Pivot Encoder Position", intakeP.getPositionConversionFactor());
 
     if (i.getisForward()) {
       i.getintakePivotMotor().set(-i.getspeed());
@@ -53,7 +53,8 @@ public class IntakePivot extends Command {
     SmartDashboard.putBoolean("current front limit", !i.getfrontLimit().get());
     SmartDashboard.putBoolean("current back limit", !i.getbackLimit().get());
     SmartDashboard.putNumber("current speed", i.getspeed());
-    SmartDashboard.putNumber("intake encoder", i.getintakePivotMotor().getEncoder().getPositionConversionFactor());
+    SmartDashboard.putNumber(
+        "intake encoder", i.getintakePivotMotor().getEncoder().getPositionConversionFactor());
     // inverted help me
     if (!i.getfrontLimit().get() && i.getisForward()) {
       i.setspeed(0);
@@ -67,9 +68,8 @@ public class IntakePivot extends Command {
 
     if (j.getRawButtonPressed(2)) {
       i.setspeed(0.1);
-    }else{
+    } else {
       p.setIdleMode(IdleMode.kBrake);
-
     }
   }
 

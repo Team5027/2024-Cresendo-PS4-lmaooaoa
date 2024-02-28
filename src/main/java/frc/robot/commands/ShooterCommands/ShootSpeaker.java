@@ -2,33 +2,48 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ShooterCommands;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
-public class StorageShoot extends Command {
-
+public class ShootSpeaker extends Command {
   private final CANSparkMax l;
   private final CANSparkMax r;
   private final CANSparkMax b;
-  private final double defaultSpeed = 0.5;
-  /** Creates a new StorageShoot. */
-  public StorageShoot(Shooter s, CANSparkMax l, CANSparkMax r, CANSparkMax b) {
-    this.l = l;
-    this.r = r;
-    this.b = b;
-    addRequirements(s);
+  private final Shooter s;
+  private final Joystick j;
+  private final double speed = 0.5;
+  /** Creates a new ShootSpeaker. */
+  public ShootSpeaker(Shooter s, CANSparkMax l, CANSparkMax r, CANSparkMax b) {
+    this.s = s;
+    this.l = s.getleftShooterMotor();
+    this.r = s.getrightShooterMotor();
+    this.b = s.getbottomShooterMotor();
+    this.j = s.getcontroller();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    l.set(defaultSpeed);
-    r.set(-defaultSpeed);
-    b.set(defaultSpeed);
+    if (j.getRawButtonPressed(4)) {
+      // shooter angle too king
+      l.set(-speed);
+      r.set(speed);
+    } else {
+      l.setIdleMode(IdleMode.kBrake);
+      r.setIdleMode(IdleMode.kBrake);
+    }
+
+    if (j.getRawButtonPressed(6)) {
+      b.set(speed);
+    } else {
+      b.setIdleMode(IdleMode.kBrake);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

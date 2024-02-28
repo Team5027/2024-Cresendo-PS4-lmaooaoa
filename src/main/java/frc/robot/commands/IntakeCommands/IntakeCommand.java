@@ -2,27 +2,35 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.IntakeCommands;
 
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
 
-public class ShooterUp extends Command {
+public class IntakeCommand extends Command {
+  private final CANSparkMax in;
 
-  private final CANSparkMax m;
+  private final double defaultSpeed = 1.0;
 
-  /** Creates a new ShooterUp. */
-  public ShooterUp(Shooter s, CANSparkMax m) {
-    this.m = m;
-    addRequirements(s);
+  /**
+   * Creates a new IntakeCommand.
+   *
+   * @param intakePivot
+   * @param intakeMotor
+   * @param intake
+   */
+  public IntakeCommand(Intake intake) {
+    this.in = intake.getintakeMotor();
+    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
+
   @Override
   public void initialize() {
-    m.set(-0.3);
+    in.set(defaultSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
