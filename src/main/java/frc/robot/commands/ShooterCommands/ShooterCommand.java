@@ -33,14 +33,14 @@ public class ShooterCommand extends Command {
 
     SmartDashboard.putNumber("Encoder Position ", e.getPositionConversionFactor());
 
-    if (m.getEncoder().getPosition() <= targetAngle - marginOfError) {
-      SmartDashboard.putString("shooter do", "go up");
-    } else if (m.getEncoder().getPosition() >= targetAngle + marginOfError) {
-      SmartDashboard.putString("shooter do", "go down");
-    } else {
-      SmartDashboard.putString("Shooter do", "stay put");
-    }
-  }
+  //   if (m.getEncoder().getPosition() <= targetAngle - marginOfError) {
+  //     SmartDashboard.putString("shooter do", "go up");
+  //   } else if (m.getEncoder().getPosition() >= targetAngle + marginOfError) {
+  //     SmartDashboard.putString("shooter do", "go down");
+  //   } else {
+  //     SmartDashboard.putString("Shooter do", "stay put");
+  //   }
+   }
 
   @Override
   public void end(boolean interrupted) {}
